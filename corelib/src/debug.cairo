@@ -21,10 +21,12 @@ use option::Option;
 
 extern fn print(message: Array<felt>) nopanic;
 
+extern fn println(message: Array<felt>) nopanic;
+
 fn print_felt(message: felt) {
     let mut arr = ArrayTrait::new();
     arr.append(message);
-    print(arr);
+    println(arr);
 }
 
 trait PrintTrait<T> {

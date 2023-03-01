@@ -671,6 +671,30 @@ impl HintProcessor for CairoHintProcessor {
                 }
                 println!();
             }
+            Hint::DebugPrintln { start, end } => {
+                let as_relocatable = |vm, value| {
+                    let (base, offset) = extract_buffer(value);
+                    get_ptr(vm, base, &offset)
+                };
+                let mut curr = as_relocatable(vm, start)?;
+                let end = as_relocatable(vm, end)?;
+                while curr != end {
+                    let value = vm.get_integer(&curr)?;
+                    if let Some(shortstring) = as_cairo_short_string(&value) {
+                        println!("[DEBUG]\t{shortstring: <31}\t(raw: {value: <31})");
+                    } else {
+                        println!("[DEBUG]\t{0: <31}\t(raw: {value: <31}) ", ' ');
+                    }
+                    curr = curr.add_int(&1.into())?;
+                }
+                println!("LAMAZMEZMZAEM");
+                println!();
+                println!();
+                println!();
+                println!();
+                println!();
+                println!("LAMAZMEZMZAEM");
+            }
             Hint::AllocConstantSize { size, dst } => {
                 let object_size = get_val(vm, size)?.to_usize().expect("Object size too large.");
                 let memory_exec_scope =

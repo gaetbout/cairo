@@ -12,6 +12,7 @@ pub fn build(
 ) -> Result<CompiledInvocation, InvocationError> {
     match libfunc {
         DebugConcreteLibfunc::Print(_) => build_print(builder),
+        DebugConcreteLibfunc::Println(_) => build_print(builder),
     }
 }
 
@@ -27,6 +28,7 @@ fn build_print(
     };
     casm_build_extend! {casm_builder,
         hint DebugPrint {start: arr_start, end: arr_end} into {};
+        hint DebugPrintln {start: arr_start, end: arr_end} into {};
         // Since we can't have hints not carried on actual instructions.
         ap += 0;
     };

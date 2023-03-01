@@ -110,3 +110,17 @@ fn test_debug_hint_format() {
         "}
     );
 }
+
+#[test]
+fn test_debug_ln_hint_format() {
+    assert_eq!(
+        Hint::DebugPrintln { start: res!([ap + 6]), end: res!([fp - 8]) }.to_string(),
+        indoc! {"
+
+            start = memory[ap + 6]
+            end = memory[fp + -8]
+            for i in range(start, end):
+                println(memory[i])
+        "}
+    );
+}

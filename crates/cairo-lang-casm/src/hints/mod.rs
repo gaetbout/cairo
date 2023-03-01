@@ -153,6 +153,10 @@ pub enum Hint {
         start: ResOperand,
         end: ResOperand,
     },
+    DebugPrintln {
+        start: ResOperand,
+        end: ResOperand,
+    },
     /// Returns an address with `size` free locations afterwards.
     AllocConstantSize {
         size: ResOperand,
@@ -493,6 +497,18 @@ impl Display for Hint {
                     end = {}
                     for i in range(start, end):
                         print(memory[i])
+                ",
+                ResOperandFormatter(start),
+                ResOperandFormatter(end),
+            ),
+            Hint::DebugPrintln { start, end } => writedoc!(
+                f,
+                "
+
+                    start = {}
+                    end = {}
+                    for i in range(start, end):
+                        println(memory[i])
                 ",
                 ResOperandFormatter(start),
                 ResOperandFormatter(end),
